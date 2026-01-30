@@ -185,19 +185,27 @@
         }
         .mobile-nav a:hover { color: var(--primary-color); }
 
-        /* Header */
+        /* Header - centered hero */
         header {
-            height: calc(100vh - var(--nav-height));
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            text-align:center;
+            position: relative;
+            height: 100vh; /* full viewport so content can be centered precisely */
+            display: block;
+            text-align: center;
             padding: 0 24px;
-            margin-top: var(--nav-height);
             background: radial-gradient(circle at center, rgba(0,210,255,0.06) 0%, transparent 70%);
         }
-        header h1 { font-size: clamp(2rem, 4vw, 4rem); margin-bottom: 12px; color: var(--primary-color); }
-        header p { color: var(--muted); max-width: 720px; margin: 0 auto 20px; font-size: clamp(1rem,1.6vw,1.15rem); }
+        /* absolutely center the content in the viewport */
+        .hero-content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 12px;
+        }
+        .hero-content h1 { font-size: clamp(2rem, 4vw, 4rem); margin: 0 0 12px; color: var(--primary-color); }
+        .hero-content p { color: var(--muted); margin: 0 auto; font-size: clamp(1rem,1.6vw,1.15rem); max-width: 720px; }
 
         /* Layout */
         main { padding: 40px var(--container-padding); max-width: var(--max-width); margin: 0 auto; }
@@ -400,7 +408,8 @@
         }
 
         @media (max-width: 480px) {
-            header { padding: 24px; }
+            header { padding: 0 12px; }
+            .hero-content h1 { font-size: 1.6rem; }
             main { padding: 28px 16px; }
             .card { padding: 16px; }
         }
@@ -451,15 +460,24 @@
     </nav>
 
     <header class="reveal-on-scroll" role="banner">
-        <h1>Journey Across Space eXploration</h1>
-        <p>Redefining luxury tourism for the new space age — combining safety, sustainability, and unforgettable views.</p>
+        <div class="hero-content">
+            <h1>Journey Across Space eXploration</h1>
+            <p>Redefining luxury tourism for the new space age — combining safety, sustainability, and unforgettable views.</p>
+        </div>
     </header>
 
     <main id="main" tabindex="-1">
         <section id="about" class="reveal-on-scroll" aria-labelledby="about-title">
             <h2 id="about-title">Executive Summary</h2>
             <div class="card">
-                <p> Our aim is  big. Our aim gives luxuries the feel of coming to our space hotel as a vacation. Our space hotel is an international space tourism standard. We are likely to give 2000 people a luxury experience in space. And our population is 2500 (including workers and others). Our aim is also to promote the people to come vacation to space and eat whatever they want and any people can access our hotel under the guidelines of our space hotel.</p>
+                <p>
+                    Our project name is JASX — Journey Across Space eXploration. JASX explores luxurious, sustainable, and accessible orbital tourism.
+                    We combine emerging reusable rocket technologies (inspired by current industry leaders) with hospitality design to deliver safe
+                    and memorable experiences. Our focus is safety-first engineering, modular habitats for different budgets, and an immersive guest experience.
+                </p>
+                <p style="margin-top:10px; color:var(--muted); font-size:0.95rem;">
+                    Note: This is an educational / concept project developed by NSS Team JAS-X and affiliated with Narayana e-techno School.
+                </p>
             </div>
         </section>
 
@@ -468,15 +486,15 @@
             <div class="grid-container">
                 <article class="card" aria-labelledby="g1">
                     <h3 id="g1">Galaxy Grill</h3>
-                    <p>Designed for affordability. Our budget-friendly food tier ensures space food is accessible to a broader audience while maintaining safety and comfort.</p>
+                    <p>Designed for affordability. Our budget-friendly tier ensures space travel is accessible to a broader audience while maintaining safety and comfort.</p>
                 </article>
                 <article class="card" aria-labelledby="g2">
                     <h3 id="g2">Orbit Haven</h3>
-                    <p>The middle-tier experience. Superior comfort with a balanced combination of luxury, and advanced technology.</p>
+                    <p>The middle-tier experience. Superior comfort with a balanced combination of luxury, privacy, and advanced technology.</p>
                 </article>
                 <article class="card" aria-labelledby="g3">
                     <h3 id="g3">Nebula Royale</h3>
-                    <p>Ultra-luxury. Exclusive dining,  and white-glove service for the ultimate luxury service in orbit.</p>
+                    <p>Ultra-luxury. Exclusive dining, premium suites, and white-glove service for the ultimate vacation in orbit.</p>
                 </article>
             </div>
         </section>
@@ -599,14 +617,14 @@
                 }, ms);
             }
 
-            // Hide loader after short delay
+            // Hide loader after short delay (now 3 seconds)
             function hideLoader() {
                 if (!loader) return;
                 loader.setAttribute('hidden', '');
                 document.body.classList.remove('loading');
             }
             window.addEventListener('load', () => {
-                const MIN_MS = 700;
+                const MIN_MS = 3000; // changed to 3000ms (3 seconds)
                 setTimeout(hideLoader, MIN_MS);
             });
 
