@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JASX | Journey Across Space eXploration</title>
+    <meta name="description" content="JASX - Journey Across Space eXploration: redefining luxury tourism for the new space age. Explore our tiers, accommodations and team." />
+    <meta property="og:title" content="JASX | Journey Across Space eXploration" />
+    <meta property="og:description" content="Redefining luxury tourism for the new space age. Explore tiers from Galaxy Grill to Nebula Royale." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.ico" />
+    <style>
+        :root {
+            --primary-color: #00d2ff;
+            --secondary-color: #3a7bd5;
+            --accent-color: #ff0055;
+            --bg-dark: #0b0d17;
+            --text-light: #f0f0f0;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --muted: rgba(255,255,255,0.6);
+            --card-border: rgba(255,255,255,0.06);
+            --max-width: 1200px;
+            --nav-height: 72px;
+            --container-padding: 20px;
+        }
+
+        /* Global */
+        * { box-sizing: border-box; }
+        html,body { height: 100%; }
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        a { color: inherit; }
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+        .skip-link:focus {
+            left: 12px;
+            top: 12px;
+            width: auto;
+            height: auto;
+            background: #111;
+            color: var(--primary-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            z-index: 1200;
+        }
+
+        /* Stars background */
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 10%, rgba(255,255,255,.03) 0, transparent 1px),
+                        radial-gradient(circle at 40% 30%, rgba(255,255,255,.02) 0, transparent 1px),
+                        radial-gradient(circle at 70% 70%, rgba(255,255,255,.015) 0, transparent 1px);
+            background-color: #000;
+            background-size: 600px 600px, 420px 420px, 260px 260px;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            background: rgba(11, 13, 23, 0.85);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+
+        .nav-inner {
+            display:flex;
+            align-items:center;
+            gap: 16px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 22px;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+        .nav-links a:focus,
+        .nav-links a:hover {
+            color: var(--primary-color);
+            outline: none;
+        }
+
+        .cta-button {
+            padding: 10px 18px;
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .cta-button:focus { outline: 3px solid rgba(0,210,255,0.15); outline-offset: 2px; }
+
+        /* Mobile nav */
+        .hamburger {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .hamburger span {
+            display:block;
+            width: 18px;
+            height: 2px;
+            background: var(--text-light);
+            position: relative;
+        }
+        .hamburger span::before,
+        .hamburger span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 18px;
+            height: 2px;
+            background: var(--text-light);
+        }
+        .hamburger span::before { top: -6px; }
+        .hamburger span::after  { top: 6px; }
+
+        .mobile-nav {
+            display:none;
+            position: absolute;
+            right: 16px;
+            top: calc(var(--nav-height) + 8px);
+            background: rgba(11,13,23,0.94);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 12px;
+            min-width: 160px;
+        }
+        .mobile-nav a {
+            display:block;
+            padding: 8px 6px;
+            color: var(--text-light);
+            text-decoration:none;
+        }
+        .mobile-nav a:hover { color: var(--primary-color); }
+
+        /* Header */
+        header {
+            height: calc(100vh - var(--nav-height));
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding: 0 24px;
+            margin-top: var(--nav-height);
+            background: radial-gradient(circle at center, rgba(0,210,255,0.06) 0%, transparent 70%);
+        }
+        header h1 { font-size: clamp(2rem, 4vw, 4rem); margin-bottom: 12px; color: var(--primary-color); }
+        header p { color: var(--muted); max-width: 720px; margin: 0 auto 20px; font-size: clamp(1rem,1.6vw,1.15rem); }
+
+        /* Layout */
+        main { padding: 40px var(--container-padding); max-width: var(--max-width); margin: 0 auto; }
+        section { padding: 48px 0; }
+        h2 { font-size: 2rem; margin-bottom: 20px; color: var(--primary-color); text-align:center; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+            opacity: 0;
+            transform: translateY(18px);
+        }
+        .card.reveal { opacity: 1; transform: translateY(0); }
+        .card:hover { transform: translateY(-6px); border-color: var(--primary-color); box-shadow: 0 8px 20px rgba(0,0,0,0.45); }
+
+        .room-tag {
+            display:inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        /* Book button */
+        .book-button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: #051018;
+            font-weight: 700;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+        .book-button:focus, .book-button:hover {
+            box-shadow: 0 6px 18px rgba(0,210,255,0.12);
+            transform: translateY(-2px);
+        }
+        @media (max-width: 480px) {
+            .book-button { display:block; width:100%; text-align:center; }
+        }
+
+        footer {
+            background: #050508;
+            padding: 36px 20px;
+            text-align:center;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        hr.soft {
+            border: none;
+            height: 1px;
+            background: rgba(255,255,255,0.04);
+            margin: 18px 0;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background: linear-gradient(180deg, rgba(11,13,23,0.98), rgba(0,0,0,0.98));
+            z-index: 1100;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        #loader[hidden] { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        .planet-system {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            margin: 0 auto 16px;
+        }
+        .sun {
+            width: 20px; height: 20px; border-radius: 50%;
+            background: linear-gradient(45deg,#ffcc33,#ff8800);
+            position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+            box-shadow: 0 0 20px rgba(255,136,0,0.6);
+        }
+
+        /* Ensure orbit rotates around center and hint to the browser; add vendor prefixed animation */
+        .orbit {
+            position:absolute;
+            left:50%;
+            top:50%;
+            transform:translate(-50%,-50%);
+            border-radius:50%;
+            border:1px solid rgba(255,255,255,0.05);
+            transform-origin: 50% 50%;
+            will-change: transform;
+            -webkit-animation: orbit-rotate 8s linear infinite;
+                    animation: orbit-rotate 8s linear infinite;
+        }
+        .orbit.o1 { width:36px; height:36px; -webkit-animation-duration: 3.6s; animation-duration: 3.6s; }
+        .orbit.o2 { width:68px; height:68px; -webkit-animation-duration: 5.2s; animation-duration: 5.2s; -webkit-animation-direction: reverse; animation-direction: reverse; }
+        .orbit.o3 { width:100px; height:100px; -webkit-animation-duration: 8s; animation-duration: 8s; }
+
+        .orbit .planet { position:absolute; left:50%; top:0; transform:translate(-50%,-50%); border-radius:50%; }
+        .orbit.o1 .planet { width:8px; height:8px; background:#00d2ff; box-shadow: 0 0 6px rgba(0,210,255,0.7); }
+        .orbit.o2 .planet { width:10px; height:10px; background:#8a2be2; box-shadow: 0 0 8px rgba(138,43,226,0.6); }
+        .orbit.o3 .planet { width:12px; height:12px; background:#ff6b6b; box-shadow: 0 0 9px rgba(255,107,107,0.6); }
+
+        .loader-text { color: var(--primary-color); letter-spacing: 2px; font-weight:700; }
+
+        /* Vendor prefixed keyframes for older WebKit, plus standard */
+        @-webkit-keyframes orbit-rotate {
+            from { -webkit-transform: translate(-50%,-50%) rotate(0deg); transform: translate(-50%,-50%) rotate(0deg); }
+            to   { -webkit-transform: translate(-50%,-50%) rotate(360deg); transform: translate(-50%,-50%) rotate(360deg); }
+        }
+        @keyframes orbit-rotate {
+            from { transform: translate(-50%,-50%) rotate(0deg); }
+            to { transform: translate(-50%,-50%) rotate(360deg); }
+        }
+
+        /* Modal styles */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(2,6,12,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1200;
+            padding: 20px;
+        }
+        .modal-backdrop.open { display:flex; }
+
+        .modal {
+            background: linear-gradient(180deg, rgba(11,13,23,0.98), rgba(6,8,12,0.96));
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 720px;
+            width: 100%;
+            color: var(--text-light);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+        }
+        .modal h3 { margin-top: 0; color: var(--primary-color); }
+        .modal p { color: var(--muted); margin-bottom: 14px; }
+        .modal .modal-actions { display:flex; gap:12px; justify-content:flex-end; margin-top: 8px; }
+        .btn {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            font-weight:700;
+            cursor: pointer;
+        }
+        .btn.ghost { background: transparent; color: var(--text-light); border: 1px solid rgba(255,255,255,0.06); }
+        .btn.primary { background: linear-gradient(45deg,var(--primary-color),var(--secondary-color)); color:#051018; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: rgba(2,6,12,0.95);
+            color: var(--text-light);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+            z-index: 1300;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.6);
+            display: none;
+        }
+        .toast.show { display:block; }
+
+        /* Focus and reduced-motion */
+        :focus { outline: 3px solid rgba(0,210,255,0.10); outline-offset: 3px; border-radius: 6px; }
+        @media (prefers-reduced-motion: reduce) {
+            .orbit { -webkit-animation-duration: 12s !important; animation-duration: 12s !important; }
+        }
+
+        /* Responsive */
+        @media (max-width: 820px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .cta-button { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 24px; }
+            main { padding: 28px 16px; }
+            .card { padding: 16px; }
+        }
+    </style>
+</head>
+<body class="loading">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div id="loader" role="status" aria-label="Loading content">
+        <div style="text-align:center;">
+            <div class="planet-system" aria-hidden="true">
+                <div class="sun" role="presentation"></div>
+                <div class="orbit o1"><div class="planet"></div></div>
+                <div class="orbit o2"><div class="planet"></div></div>
+                <div class="orbit o3"><div class="planet"></div></div>
+            </div>
+            <div class="loader-text">Initializing</div>
+        </div>
+    </div>
+
+    <div class="stars" aria-hidden="true"></div>
+
+    <nav role="navigation" aria-label="Main">
+        <div class="logo">JASX</div>
+
+        <div class="nav-inner">
+            <ul class="nav-links" role="menubar" aria-label="Primary">
+                <li role="none"><a role="menuitem" href="#about">Mission</a></li>
+                <li role="none"><a role="menuitem" href="#hotels">Tiers</a></li>
+                <li role="none"><a role="menuitem" href="#rooms">Rooms</a></li>
+                <li role="none"><a role="menuitem" href="#team">Team</a></li>
+            </ul>
+
+            <button class="hamburger" id="hamburger" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open navigation">
+                <span aria-hidden="true"></span>
+            </button>
+
+            <div id="mobile-nav" class="mobile-nav" hidden>
+                <a href="#about">Mission</a>
+                <a href="#hotels">Tiers</a>
+                <a href="#rooms">Rooms</a>
+                <a href="#team">Team</a>
+                <a href="#about" class="cta-button" style="display:block; margin-top:8px; text-align:center;">About Us</a>
+            </div>
+
+            <a href="#about" class="cta-button">About Us</a>
+        </div>
+    </nav>
+
+    <header class="reveal-on-scroll" role="banner">
+        <h1>Journey Across Space eXploration</h1>
+        <p>Redefining luxury tourism for the new space age — combining safety, sustainability, and unforgettable views.</p>
+    </header>
+
+    <main id="main" tabindex="-1">
+        <section id="about" class="reveal-on-scroll" aria-labelledby="about-title">
+            <h2 id="about-title">Executive Summary</h2>
+            <div class="card">
+                <p>
+                    Our project name is JASX — Journey Across Space eXploration. JASX explores luxurious, sustainable, and accessible orbital tourism.
+                    We combine emerging reusable rocket technologies (inspired by current industry leaders) with hospitality design to deliver safe
+                    and memorable experiences. Our focus is safety-first engineering, modular habitats for different budgets, and an immersive guest experience.
+                </p>
+                <p style="margin-top:10px; color:var(--muted); font-size:0.95rem;">
+                    Note: This is an educational / concept project developed by NSS Team JAS-X and affiliated with Narayana e-techno School.
+                </p>
+            </div>
+        </section>
+
+        <section id="hotels" class="reveal-on-scroll" aria-labelledby="hotels-title">
+            <h2 id="hotels-title">Our Hotel Tier</h2>
+            <div class="grid-container">
+                <article class="card" aria-labelledby="g1">
+                    <h3 id="g1">Galaxy Grill</h3>
+                    <p>Designed for affordability. Our budget-friendly tier ensures space travel is accessible to a broader audience while maintaining safety and comfort.</p>
+                </article>
+                <article class="card" aria-labelledby="g2">
+                    <h3 id="g2">Orbit Haven</h3>
+                    <p>The middle-tier experience. Superior comfort with a balanced combination of luxury, privacy, and advanced technology.</p>
+                </article>
+                <article class="card" aria-labelledby="g3">
+                    <h3 id="g3">Nebula Royale</h3>
+                    <p>Ultra-luxury. Exclusive dining, premium suites, and white-glove service for the ultimate vacation in orbit.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="rooms" class="reveal-on-scroll" aria-labelledby="rooms-title">
+            <h2 id="rooms-title">Accommodations</h2>
+            <div class="grid-container">
+                <div class="card" aria-labelledby="r1">
+                    <span class="room-tag">Standard</span>
+                    <h3 id="r1">Capsule Room</h3>
+                    <p>Compact and efficient. Features a foldable bed, smart storage, and shared facilities. Ideal for short stays.</p>
+                    <p class="price" aria-label="$5,000 per day">US$5,000 / day</p>
+                    <button class="book-button" data-room="Capsule Room" aria-label="Book Capsule Room">Book Now</button>
+                </div>
+
+                <div class="card" aria-labelledby="r2">
+                    <span class="room-tag">Standard Plus</span>
+                    <h3 id="r2">Small Suite</h3>
+                    <p>Perfect for small families. Includes a private bathroom, double bed, and a dedicated workspace.</p>
+                    <p class="price" aria-label="$12,000 per day">US$12,000 / day</p>
+                    <button class="book-button" data-room="Small Suite" aria-label="Book Small Suite">Book Now</button>
+                </div>
+
+                <div class="card" aria-labelledby="r3">
+                    <span class="room-tag">Premium</span>
+                    <h3 id="r3">Large Suite</h3>
+                    <p>Spacious living for groups or families. Enhanced Earth-view windows, multiple sleeping areas, and private lounge space.</p>
+                    <p class="price" aria-label="$30,000 per day">US$30,000 / day</p>
+                    <button class="book-button" data-room="Large Suite" aria-label="Book Large Suite">Book Now</button>
+                </div>
+
+                <div class="card" aria-labelledby="r4">
+                    <span class="room-tag">VIP</span>
+                    <h3 id="r4">Presidential Suite</h3>
+                    <p>The pinnacle of space living. Features double king-sized beds, kitchen, dining area, and 360-degree panoramic views.</p>
+                    <p class="price" aria-label="$75,000 per day">US$75,000 / day</p>
+                    <button class="book-button" data-room="Presidential Suite" aria-label="Book Presidential Suite">Book Now</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="team" class="reveal-on-scroll" aria-labelledby="team-title">
+            <h2 id="team-title">Team & Acknowledgement</h2>
+            <div class="card">
+                <p><strong>NSS Team JAS-X:</strong> D Jatin Sai (Leader), S Jaiakash (Assistant Leader), Sharan Raj (Robotics & Coding), Krish Raghav, Sreejeeth V, Lohith Gosu.</p>
+                <hr class="soft" />
+                <p>A heartfelt thanks to respected A.D. Ma'am, our Principal Sir, and our NSS In-charges Sheeba Ma'am, Pavani Ma'am and our classmate Lokesh.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 JASX - Narayana e-techno School, CHE-KLT</p>
+    </footer>
+
+    <!-- Mock disclaimer modal -->
+    <div id="modal-backdrop" class="modal-backdrop" role="presentation" aria-hidden="true">
+        <div id="disclaimer-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc" tabindex="-1">
+            <h3 id="modal-title">Website Disclaimer — Mock Booking</h3>
+            <p id="modal-desc">
+                You are about to make a booking request. This website is a mock/demo site created for educational purposes only.
+                No real bookings or payments will be processed. Personal data submitted here will not be stored or transmitted to a booking service.
+                By continuing, you acknowledge this is a demonstration and not a real reservation.
+            </p>
+            <p style="color:var(--muted); margin-bottom:0.5rem;">Selected accommodation: <strong id="modal-room">—</strong></p>
+            <div class="modal-actions" style="margin-top:16px;">
+                <button class="btn ghost" id="modal-cancel">Cancel</button>
+                <button class="btn primary" id="modal-continue">Continue (Mock Booking)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            const loader = document.getElementById('loader');
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+
+            // Modal elements
+            const modalBackdrop = document.getElementById('modal-backdrop');
+            const disclaimerModal = document.getElementById('disclaimer-modal');
+            const modalRoom = document.getElementById('modal-room');
+            const modalCancel = document.getElementById('modal-cancel');
+            const modalContinue = document.getElementById('modal-continue');
+            const toast = document.getElementById('toast');
+
+            let lastFocusedElement = null;
+
+            function showModal(roomName, triggerElement) {
+                lastFocusedElement = triggerElement || document.activeElement;
+                modalRoom.textContent = roomName;
+                modalBackdrop.classList.add('open');
+                modalBackdrop.setAttribute('aria-hidden', 'false');
+                disclaimerModal.focus();
+                // prevent background scroll
+                document.documentElement.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalBackdrop.classList.remove('open');
+                modalBackdrop.setAttribute('aria-hidden', 'true');
+                // restore scroll
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
+                // restore focus
+                if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                    lastFocusedElement.focus();
+                }
+            }
+
+            function showToast(message, ms = 2800) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, ms);
+            }
+
+            // Hide loader after short delay
+            function hideLoader() {
+                if (!loader) return;
+                loader.setAttribute('hidden', '');
+                document.body.classList.remove('loading');
+            }
+            window.addEventListener('load', () => {
+                const MIN_MS = 700;
+                setTimeout(hideLoader, MIN_MS);
+            });
+
+            // Mobile nav toggle
+            if (hamburger && mobileNav) {
+                hamburger.addEventListener('click', () => {
+                    const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+                    hamburger.setAttribute('aria-expanded', String(!expanded));
+                    if (mobileNav.hasAttribute('hidden')) {
+                        mobileNav.removeAttribute('hidden');
+                    } else {
+                        mobileNav.setAttribute('hidden', '');
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!mobileNav || !hamburger) return;
+                    const target = e.target;
+                    if (!mobileNav.contains(target) && !hamburger.contains(target)) {
+                        mobileNav.setAttribute('hidden', '');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+
+            // IntersectionObserver for reveal on scroll
+            document.addEventListener('DOMContentLoaded', () => {
+                const elements = document.querySelectorAll('.reveal-on-scroll, .card');
+                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                if ('IntersectionObserver' in window && !prefersReduced) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('reveal');
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.12 });
+
+                    elements.forEach(el => observer.observe(el));
+                } else {
+                    elements.forEach(el => el.classList.add('reveal'));
+                }
+
+                // Smooth scrolling (respect reduced motion)
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        const href = this.getAttribute('href');
+                        if (!href || href === '#') return;
+                        const target = document.querySelector(href);
+                        if (target) {
+                            e.preventDefault();
+                            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                            target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth' });
+                            target.setAttribute('tabindex', '-1');
+                            target.focus({ preventScroll: true });
+                        }
+                        if (mobileNav && !mobileNav.hasAttribute('hidden')) {
+                            mobileNav.setAttribute('hidden', '');
+                            if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                });
+
+                // Booking buttons: show disclaimer modal
+                document.querySelectorAll('.book-button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const room = btn.dataset.room || 'Accommodation';
+                        showModal(room, btn);
+                    });
+                });
+
+                // Modal actions
+                modalCancel.addEventListener('click', () => {
+                    closeModal();
+                });
+
+                modalContinue.addEventListener('click', () => {
+                    // Mock booking result
+                    closeModal();
+                    showToast('This is a mock site — no real bookings are processed.');
+                });
+
+                // Close modal on backdrop click (outside modal)
+                modalBackdrop.addEventListener('click', (e) => {
+                    if (e.target === modalBackdrop) {
+                        closeModal();
+                    }
+                });
+
+                // Keyboard: Escape closes modal
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        if (modalBackdrop.classList.contains('open')) {
+                            closeModal();
+                        }
+                    }
+                });
+
+                // Basic focus trap: keep Tab inside modal when open
+                document.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Tab') return;
+                    if (!modalBackdrop.classList.contains('open')) return;
+
+                    const focusable = disclaimerModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                    if (!focusable.length) return;
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+
+                    if (e.shiftKey) { // Shift + Tab
+                        if (document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                    } else { // Tab
+                        if (document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
