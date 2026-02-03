@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>JASX | Journey Across Space eXploration</title>
-    <meta name="description" content="JASX - Journey Across Space eXploration: redefining luxury tourism for the new space age. Explore our tiers, accommodations and team." />
-    <meta property="og:title" content="JASX | Journey Across Space eXploration" />
+    <title>JASEX | Journey Across Space eXploration</title>
+    <meta name="description" content="JASEX - Journey Across Space eXploration: redefining luxury tourism for the new space age. Explore our tiers, accommodations and team." />
+    <meta property="og:title" content="JASEX | Journey Across Space eXploration" />
     <meta property="og:description" content="Redefining luxury tourism for the new space age. Explore tiers from Galaxy Grill to Nebula Royale." />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.ico" />
@@ -413,6 +413,29 @@
             main { padding: 28px 16px; }
             .card { padding: 16px; }
         }
+
+        /* New: Executive Summary illustration styling */
+        .about-figure {
+            max-width: 900px;
+            margin: 20px auto 0;
+            padding: 12px;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+        .about-figure img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .about-figure figcaption {
+            color: var(--muted);
+            margin-top: 10px;
+            font-size: 0.95rem;
+            text-align: center;
+        }
     </style>
 </head>
 <body class="loading">
@@ -433,7 +456,7 @@
     <div class="stars" aria-hidden="true"></div>
 
     <nav role="navigation" aria-label="Main">
-        <div class="logo">JASX</div>
+        <div class="logo">JASEX</div>
 
         <div class="nav-inner">
             <ul class="nav-links" role="menubar" aria-label="Primary">
@@ -471,11 +494,18 @@
             <h2 id="about-title">Executive Summary</h2>
             <div class="card">
                 <p>
-                    Our project name is JASX — Journey Across Space eXploration. JASX explores luxurious, sustainable, and accessible orbital tourism.
+                    Our project name is JASEX — Journey Across Space eXploration. JASEX explores luxurious, sustainable, and accessible orbital tourism.
                     We combine emerging reusable rocket technologies (inspired by current industry leaders) with hospitality design to deliver safe
                     and memorable experiences. Our focus is safety-first engineering, modular habitats for different budgets, and an immersive guest experience.
                 </p>
             </div>
+
+            <!-- Inserted illustration for Executive Summary -->
+            <!-- Replace the src with the uploaded image or add the image to assets/space-station.jpg -->
+            <figure class="about-figure reveal card" aria-labelledby="about-illustration-caption">
+                <img id="about-illustration" src="assets/space-station.jpg" alt="Conceptual orbital habitat — ring-style space hotel floating above Earth (illustrative concept)" loading="lazy">
+                <figcaption id="about-illustration-caption">Concept art: orbital habitat (illustrative only).</figcaption>
+            </figure>
         </section>
 
         <section id="hotels" class="reveal-on-scroll" aria-labelledby="hotels-title">
@@ -544,7 +574,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 JASX - Narayana e-techno School, CHE-KLT</p>
+        <p>&copy; 2024 JASEX - Narayana e-techno School, CHE-KLT</p>
     </footer>
 
     <!-- Mock disclaimer modal -->
